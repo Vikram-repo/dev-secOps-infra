@@ -1,0 +1,13 @@
+trigger: none
+pool: aws-pool
+jobs:
+  - job: tflint
+    displayName: terraform tf lint
+    steps:
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            cd $(System.DefaultWorkingDirectory)/terraform
+            tflint --init
+            tflint --recursive
