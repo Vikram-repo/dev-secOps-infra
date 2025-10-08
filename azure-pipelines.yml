@@ -30,6 +30,7 @@ jobs:
          artifact: 'tf-config'
          publishLocation: 'pipeline'
  - job: terraformplan
+   dependsOn: terraforminit
    displayName: 
    steps:
      - task: DownloadPipelineArtifact@2
