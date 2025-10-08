@@ -6,7 +6,7 @@ pr:
    include:
      - main
 trigger: none
-pool: aws-pool
+pool: test-pool
 jobs:
  - job: tflint
    displayName: terraform tf lint
