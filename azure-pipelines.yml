@@ -43,8 +43,8 @@ jobs:
          targetType: 'inline'
          script: |
            cd $(Pipeline.Workspace)/terraform
-           chmod -R a+rwX .terraform/providers
-           chmod -R a+rwX .terraform.lock.hcl
+           chmod -R a+rwX .terraform
+           chmod a+rw .terraform.lock.hcl
      - task: TerraformTask@5
        inputs:
          provider: 'azurerm'
