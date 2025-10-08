@@ -1,3 +1,7 @@
+pr:
+ branches:
+   include:
+     - main
 trigger: none
 pool: test-pool
 jobs:
