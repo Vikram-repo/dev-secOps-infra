@@ -1,16 +1,16 @@
 trigger: none
 pool: test-pool
 jobs:
-#  - job: tflint
-#    displayName: terraform tf lint
-#    steps:
-#     - task: Bash@3
-#       inputs:
-#         targetType: 'inline'
-#         script: |
-#           cd $(System.DefaultWorkingDirectory)/terraform
-#           tflint --init
-#           tflint --recursive
+ - job: tflint
+   displayName: terraform tf lint
+   steps:
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)/terraform
+          tflint --init
+          tflint --recursive
 
  - job: terraforminit 
    displayName: terraform init
@@ -44,7 +44,6 @@ jobs:
          script: |
            cd $(Pipeline.Workspace)
            chmod -R a+rx .terraform/providers
-
 
      - task: TerraformTask@5
        inputs:
