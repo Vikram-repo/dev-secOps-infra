@@ -42,13 +42,13 @@ jobs:
        inputs:
          targetType: 'inline'
          script: |
-           cd $(Pipeline.Workspace)
+           cd $(Pipeline.Workspace)/terraform
            chmod -R a+rwX .terraform/providers
            chmod -R a+rwX .terraform.lock.hcl
      - task: TerraformTask@5
        inputs:
          provider: 'azurerm'
-         workingDirectory: '$(Pipeline.Workspace)'
+         workingDirectory: '$(Pipeline.Workspace)/terraform'
          command: 'plan'
          environmentServiceNameAzureRM: 'todo-sec-svc'
   
