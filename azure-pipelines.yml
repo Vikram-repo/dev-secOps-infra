@@ -1,9 +1,12 @@
+variables:
+  - group: todo-project
+
 pr:
  branches:
    include:
      - main
 trigger: none
-pool: test-pool
+pool: aws-pool
 jobs:
  - job: tflint
    displayName: terraform tf lint
@@ -24,9 +27,9 @@ jobs:
          provider: 'azurerm'
          command: 'init'
          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-         backendServiceArm: 'todo-sec-svc'
-         backendAzureRmStorageAccountName: 'sandisk11'
-         backendAzureRmContainerName: 'friday11'
+         backendServiceArm: '$(svc)'
+         backendAzureRmStorageAccountName: '$(backend_space)'
+         backendAzureRmContainerName: '$(backend_cont)'
          backendAzureRmKey: 'prod.terraform.tfstate'
      - task: PublishPipelineArtifact@1
        inputs:
@@ -54,5 +57,5 @@ jobs:
          provider: 'azurerm'
          workingDirectory: '$(Pipeline.Workspace)'
          command: 'plan'
-         environmentServiceNameAzureRM: 'todo-sec-svc'
+         environmentServiceNameAzureRM: '$(svc)'
   
