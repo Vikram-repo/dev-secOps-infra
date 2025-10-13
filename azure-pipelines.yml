@@ -1,9 +1,9 @@
 variables:
   - group: todo-project
-pr:
- branches:
-   include:
-     - main
+# pr:
+#  branches:
+#    include:
+#      - main
 trigger: none
 pool: test-pool
 jobs:
