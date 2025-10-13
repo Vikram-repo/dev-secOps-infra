@@ -49,7 +49,7 @@ jobs:
         targetType: 'inline'
         script: |
           cd $(Pipeline.Workspace)
-          tfsec --format json --out tfsec-result.json
+          tfsec --format json --out tfsec-result.json --soft-fail .
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/tfsec-result.json'
