@@ -56,7 +56,7 @@ jobs:
         artifact: 'tfsec-report'
         publishLocation: 'pipeline'
  - job: terraformplan
-   dependsOn: terraforminit
+   dependsOn: tfsec
    displayName: 
    steps:
      - task: DownloadPipelineArtifact@2
