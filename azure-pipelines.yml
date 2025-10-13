@@ -28,7 +28,7 @@ jobs:
          backendServiceArm: '$(svc)'
          backendAzureRmStorageAccountName: '$(backend_space)'
          backendAzureRmContainerName: '$(backend_cont)'
-         backendAzureRmKey: 'prod.terraform.tfstate'
+         backendAzureRmKey: '$(key)'
   
      - task: PublishPipelineArtifact@1
        inputs:
