@@ -1,10 +1,9 @@
 variables:
   - group: todo-project
-
-pr:
- branches:
-   include:
-     - main
+# pr:
+#  branches:
+#    include:
+#      - main
 trigger: none
 pool: test-pool
 jobs:
@@ -18,7 +17,6 @@ jobs:
           cd $(System.DefaultWorkingDirectory)/terraform
           tflint --init
           tflint --recursive
-
  - job: terraforminit 
    displayName: terraform init
    steps:
@@ -30,14 +28,35 @@ jobs:
          backendServiceArm: '$(svc)'
          backendAzureRmStorageAccountName: '$(backend_space)'
          backendAzureRmContainerName: '$(backend_cont)'
-         backendAzureRmKey: 'prod.terraform.tfstate'
+         backendAzureRmKey: '$(key)'
+  
      - task: PublishPipelineArtifact@1
        inputs:
          targetPath: '$(System.DefaultWorkingDirectory)/terraform'
          artifact: 'tf-config'
          publishLocation: 'pipeline'
- - job: terraformplan
+ - job: tfsec
+   displayName: tfsec scan
    dependsOn: terraforminit
+   steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+         buildType: 'current'
+         artifactName: 'tf-config'
+         targetPath: '$(Pipeline.Workspace)'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(Pipeline.Workspace)
+          tfsec --format json --out tfsec-result.json --soft-fail .
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/tfsec-result.json'
+        artifact: 'tfsec-report'
+        publishLocation: 'pipeline'
+ - job: terraformplan
+   dependsOn: tfsec
    displayName: 
    steps:
      - task: DownloadPipelineArtifact@2
@@ -45,6 +64,7 @@ jobs:
          buildType: 'current'
          artifactName: 'tf-config'
          targetPath: '$(Pipeline.Workspace)'
+
      - task: Bash@3
        inputs:
          targetType: 'inline'
